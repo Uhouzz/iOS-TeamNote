@@ -36,7 +36,7 @@
 -(void)methodName:(NSString *)string;
 
 // OK
-- (void)methodName:(NSString *)string;
+- (void) methodName:(NSString *)string;
  ↑空格 
 ```
 
@@ -59,16 +59,16 @@ if (a < b) {
 
 ```C
 // OK
-(someValue > 100)? YES : NO
+(someValue > 100)?YES:NO
 
 // OK
-(items)?: @[]
+(someValue > 100) ? YES : NO
 ```
 
 属性
 ```objective-c
-@property (nonatomic, copy) NSString *name;
-      空格↑        空格↑    ↑空格
+@property (nonatomic, copy) NSString *name;  
+空格↑        空格↑    ↑空格
 ```
 
 二元算数运算符两侧是否加空格不确定，根据情况自己定。一元运算符与操作数之前没有空格。
@@ -116,8 +116,8 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
    
 
 //good 这里尽量手动调整一下，自动折行不会自动对齐
-- (void)startWithCompletionBlockWithSuccess:(void (^)(SNRequest *request))success
-                                    failure:(void (^)(SNRequest *request))failure;
+- (void)startWithCompletionBlockWithSuccess:(void (^)(YTKRequest *request))success
+                                    failure:(void (^)(YTKRequest *request))failure;
                                                     
 ```                                                   
 
