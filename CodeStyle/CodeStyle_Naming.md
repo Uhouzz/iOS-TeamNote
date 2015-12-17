@@ -26,8 +26,10 @@
 -----
 ### <a name='naming-basic-principle'></a>基本原则
 
-* 清晰
-    * 命名应该尽可能的清晰和简洁，但在Objective-C中，清晰比简洁更重要。由于Xcode强大的自动补全功能，我们不必担心名称过长的问题。
+* 清晰：  
+
+命名应该尽可能的清晰和简洁，但在Objective-C中，清晰比简洁更重要。由于Xcode强大的自动补全功能，我们不必担心名称过长的问题。   
+ 
 ```Objective-C
 //清晰
 insertObject:atIndex:
@@ -51,10 +53,13 @@ destSel
 setBkgdColor:
 ```
 
-* 一致性
-    * 整个工程的命名风格要保持一致性，最好和苹果SDK的代码保持统一。不同类中完成相似功能的方法应该叫一样的名字，比如我们总是用count来返回集合的个数，不能在A类中使用count而在B类中使用getNumber
+* 一致性  
+
+整个工程的命名风格要保持一致性，最好和苹果SDK的代码保持统一。不同类中完成相似功能的方法应该叫一样的名字，比如我们总是用count来返回集合的个数，不能在A类中使用count而在B类中使用getNumber
+
 * 结构统一
-    * 变量命名推荐的命名语素顺序是：最开头是命名空间简写，然后越重要、区别度越大的语素越要往前放。经典的结构是：作用范围+限定修饰+类型。例：
+    
+变量命名推荐的命名语素顺序是：最开头是命名空间简写，然后越重要、区别度越大的语素越要往前放。经典的结构是：作用范围+限定修饰+类型。例：
 
 ```C
 extern ushort APIDefaultPageSize;        // 还行，能明白意思了
@@ -228,7 +233,7 @@ icon_arrowright
 - (void)setController;
 ```
 
-对于有多个参数的方法，务必在每一个参数前都添加关键词，关键词应当清晰说明参数的作用：
+对于有多个参数的方法，务必在每一个参数前都添加关键词，关键词应当清晰说明参数的作用：  
 
 ```Objective-C
 //正确，保证每个参数都有关键词修饰
@@ -244,6 +249,7 @@ icon_arrowright
 - (id)taggedView:(int)aTag;
 ```
 不要用and来连接两个参数，通常and用来表示方法执行了两个相对独立的操作（从设计上来说，这时候应该拆分成两个独立的方法）：
+
 ```Objective-C
 //错误，不要使用"and"来连接参数
 - (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
@@ -252,6 +258,7 @@ icon_arrowright
 - (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
 ```
 方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用do，does这种多余的关键字，动词本身的暗示就足够了
+
 ```Objective-C
 //动词打头的方法表示让对象执行一个动作
 - (void)invokeWithTarget:(id)target;
@@ -266,6 +273,7 @@ icon_arrowright
 * 不要再方法名中使用类似`pointer`,`ptr`这样的字眼去表示指针，参数本身的类型足以说明
 * 不要使用只有一两个字母的参数名
 * 不要使用简写，拼出完整的单词
+
 ```Objective-C
 ...action:(SEL)aSelector
 ...alignment:(int)mode
@@ -286,6 +294,7 @@ icon_arrowright
 ```
 #### <a name='naming-method-accessor'></a>存取函数命名
 存取方法是指用来获取和设置类属性值的方法，属性的不同类型，对应着不同的存取方法规范：
+
 ```Objective-C
 //属性是一个名词时的存取方法范式
 - (type)noun;
@@ -309,7 +318,8 @@ icon_arrowright
 - (void)setShowsAlpha:(BOOL)flag;
 ```
 命名存取方法时不要将动词转化为被动形式来使用：
-```objective-c
+
+```Objective-C
 //正确
 - (void)setAcceptsGlyphInfo:(BOOL)flag;
 - (BOOL)acceptsGlyphInfo;
@@ -320,7 +330,8 @@ icon_arrowright
 ```
 
 可以使用`can`,`should`,`will`等词来协助表达存取方法的意思，但不要使用`do`,和`does`：
-```objective-c
+
+```Objective-C
 //正确
 - (void)setCanHide:(BOOL)flag;
 - (BOOL)canHide;
@@ -334,7 +345,7 @@ icon_arrowright
 
 为什么Objective-C中不适用`get`前缀来表示属性获取方法？因为`get`在Objective-C中通常只用来表示从函数指针返回值的函数：
 
-```objective-c
+```Objective-C
 //三个参数都是作为函数的返回值来使用的，这样的函数名可以使用"get"前缀
 - (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
 ```
@@ -344,7 +355,8 @@ icon_arrowright
 当特定的事件发生时，对象会触发它注册的委托方法。委托是Objective-C中常用的传递消息的方式。委托有它固定的命名范式。
 
 一个委托方法的第一个参数是触发它的对象，第一个关键词是触发对象的类名，除非委托方法只有一个名为`sender`的参数：
-```objective-c
+
+```Objective-C
 //第一个关键词为触发委托的类名
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
 - (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename;
@@ -354,7 +366,8 @@ icon_arrowright
 ```
 
 根据委托方法触发的时机和目的，使用`should`,`will`,`did`等关键词
-```objective-c
+
+```Objective-C
 - (void)browserDidScroll:(NSBrowser *)sender;
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window;、
@@ -366,7 +379,7 @@ icon_arrowright
 
 有些对象管理着一系列其它对象或者元素的集合，需要使用类似“增删查改”的方法来对集合进行操作，这些方法的命名范式一般为：
 
-```objective-c
+```Objective-C
 //集合操作范式
 - (void)addElement:(elementType)anObj;
 - (void)removeElement:(elementType)anObj;
@@ -380,7 +393,7 @@ icon_arrowright
 
 注意，如果返回的集合是无序的，使用`NSSet`来代替`NSArray`。如果需要将元素插入到特定的位置，使用类似于这样的命名：
 
-```objective-c
+```Objective-C
 - (void)insertLayoutManager:(NSLayoutManager *)obj atIndex:(int)index;
 - (void)removeLayoutManagerAtIndex:(int)index;
 ```
@@ -389,7 +402,7 @@ icon_arrowright
 
 下面是SDK中`NSWindow`类的集合操作方法：
 
-```objective-c
+```Objective-C
 - (void)addChildWindow:(NSWindow *)childWin ordered:(NSWindowOrderingMode)place;
 - (void)removeChildWindow:(NSWindow *)childWin;
 - (NSArray *)childWindows;
@@ -399,7 +412,7 @@ icon_arrowright
 ### <a name='naming-properties'></a>属性命名
 属性和对象的存取方法相关联，属性的第一个字母小写，后续单词首字母大写，不必添加前缀。属性按功能命名成名词或者动词：
 
-```objective-c
+```Objective-C
 //名词属性
 @property (strong) NSString *title;
 
@@ -409,7 +422,7 @@ icon_arrowright
 
 属性也可以命名成形容词，这时候通常会指定一个带有`is`前缀的get方法来提高可读性：
 
-```objective-c
+```Objective-C
 @property (assign, getter=isEditable) BOOL editable;
 ```
 *按苹果的说法，不建议在除了`init`和`dealloc`方法以外的地方直接访问实例变量，但很多人认为直接访问会让代码更加清晰可读，只在需要计算或者执行操作的时候才使用存取方法访问，我就是这种习惯，所以这里不作要求。*
@@ -461,7 +474,7 @@ v    | 视图
 如果要定义一组相关的常量，尽量使用枚举类型（enumerations），枚举类型的命名规则和函数的命名规则相同。
 建议使用 `NS_ENUM` 和 `NS_OPTIONS` 宏来定义枚举类型，参见官方的 [Adopting Modern Objective-C](https://developer.apple.com/library/ios/releasenotes/ObjectiveC/ModernizationObjC/AdoptingModernObjective-C/AdoptingModernObjective-C.html) 一文：
 
-```objective-c
+```Objective-C
 //定义一个枚举
 typedef NS_ENUM(NSInteger, NSMatrixMode) {
     NSRadioModeMatrix,
@@ -473,7 +486,7 @@ typedef NS_ENUM(NSInteger, NSMatrixMode) {
 
 定义bit map：
 
-```objective-c
+```Objective-C
 typedef NS_OPTIONS(NSUInteger, NSWindowMask) {
     NSBorderlessWindowMask      = 0,
     NSTitledWindowMask          = 1 << 0,
@@ -485,13 +498,13 @@ typedef NS_OPTIONS(NSUInteger, NSWindowMask) {
 
 使用`const`定义浮点型或者单个的整数型常量，如果要定义一组相关的整数常量，应该优先使用枚举。常量的命名规范和函数相同：
 
-```objective-c
+```Objective-C
 const float NSLightGray;
 ```
 
 不要使用`#define`宏来定义常量，如果是整型常量，尽量使用枚举，浮点型常量，使用`const`定义。`#define`通常用来给编译器决定是否编译某块代码，比如常用的：
 
-```objective-c
+```Objective-C
 #ifdef DEBUG
 ```
 

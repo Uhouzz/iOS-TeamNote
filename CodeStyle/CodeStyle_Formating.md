@@ -66,6 +66,7 @@ if (a < b) {
 ```
 
 属性
+
 ```objective-c
 @property (nonatomic, copy) NSString *name;  
 空格↑        空格↑    ↑空格
@@ -109,6 +110,7 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
 ### <a name='alignment-type'></a>对齐方式
 
 当一个函数比较长超过120个字符时 我们使用参数对齐方式
+
 ```Objective-C
 // bad 
 [self.slideNavigationController postMessageToParentViewController:@{ @"hasNewComment":@(self.hasNewComment) }
@@ -126,13 +128,13 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
 
 实现文件中的代码结构，提倡以下约定：
 
-* 用#pragma mark -将函数或方法按功能进行分组。
+* 用`#pragma mark -`将函数或方法按功能进行分组。
 * dealloc方法放到实现文件的最顶部。
 > 这样是为了时刻提醒你要记得释放相关资源。
 
 * delgate或协议相关方法放到一般内容之后。
 
-```objective-c
+```Objective-C
 #pragma mark - Lifecycle
 
 - (void)dealloc {}
