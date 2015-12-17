@@ -99,11 +99,6 @@ info    == Information				temp   == Temporary
 init    == Initialize				vert   == Vertical
 int     == Integer
 
-不要使用单词的简写，拼写出完整的单词
-destinationSelection       // OK
-destSel                    // 糟糕
-setBackgroundColor:        // OK
-setBkgdColor:              // 糟糕
 ```
 ### <a name='naming-match-case'></a>大小写
 * 类名采用大驼峰（`UpperCamelCase`）

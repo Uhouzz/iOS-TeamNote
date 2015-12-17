@@ -134,7 +134,7 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
 
 * delgate或协议相关方法放到一般内容之后。
 
-```Objective-C
+```objc
 #pragma mark - Lifecycle
 
 - (void)dealloc {}
@@ -275,6 +275,7 @@ if (count > 0) {
     }
 
 ```
+
 <a name='comment'></a>注释格式规范
 ----
 尽量让代码可以自表述，而不是依赖注释。
@@ -291,7 +292,7 @@ if (count > 0) {
 <a name='question'/></a>需要注意的问题
 ----
 
-### 使用成员还是使用属性？
+### 使用成员变量还是使用属性？
 禁止在类的 interface 中定义任何 iVar 成员，只允许使用属性，但可以在特定情形中使用属性生成的 iVar。
 
 尽量总是使用点操作符访问属性，而不是属性生成的 iVar 变量。以下情形除外：
@@ -300,7 +301,25 @@ if (count > 0) {
 * 需重写属性 getter 或 setter 的；
 * 性能分析确定使用属性会导致性能不可接受的；
 * 多线程环境中，为防止互斥一次进行多个修改的；
-* init、dealloc 方法中。
+* `init`、`dealloc`、`initWithCoder` 等方法中。
+
+推荐
+
+```Objective-C
+@interface MyAppTutorial : NSObject
+
+@property (nonatomic, copy) NSString *tutorialName;
+
+@end
+```
+不推荐
+
+```Objective-C
+@interface MyAppTutorial : NSObject {
+  NSString *tutorialName;
+}
+```
+
 
 动机
 > 如果使用 iVar，很多情况要特殊处理，容易出错。总是使用成员，规则简单，不易出问题。
@@ -328,6 +347,7 @@ if (count > 0) {
 * https://github.com/objc-zen/objc-zen-book
 * [你们是如何为 View Controller 的变量命名的呢？ - V2EX](//www.v2ex.com/t/25732)
 * [代码大全(第2版) - 亚马逊](http://www.amazon.cn/dp/B0061XKRXA)
+* [Wonderful Objective-C Style Guide](https://github.com/markeissler/wonderful-objective-c-style-guide)
 
 <a name='footnote'></a>
 [^1]: [再谈ARC - 苹果核](http://pingguohe.net/2012/06/22/talk_arc_again/)
