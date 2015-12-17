@@ -1,4 +1,4 @@
-# Uhouzz Objective-C 编码规范（下）
+# Uhouzz objc 编码规范（下）
 ======================
 
 <a name='TOC'/></a>目录
@@ -12,6 +12,7 @@
   * [代码分组](#format-codegroup)
   * [黄金路径](#best-path)
   * [BOOL的使用](#bool-use)
+  * [Switch-Case](switch-case)
 * [注释格式规范](#comment)
   * [块注释](#block-comment) 
 * [需要注意的问题](#question)
@@ -31,7 +32,7 @@
 ### <a name='spaces'></a>空格
 类方法声明在方法类型与返回类型之间要有空格。
 
-```Objective-C
+```objc
 // 糟糕
 -(void)methodName:(NSString *)string;
 
@@ -42,7 +43,7 @@
 
 条件判断的括号内侧不应有空格。
 
-```C
+```objc
 // 糟糕
 if ( a < b ) {
     // something
@@ -57,7 +58,7 @@ if (a < b) {
 
 关系运算符（如 `>=`、`!=`）和逻辑运算符（如 `&&`、`||`）两边要有空格。
 
-```C
+```objc
 // OK
 (someValue > 100)?YES:NO
 
@@ -67,7 +68,7 @@ if (a < b) {
 
 属性
 
-```objective-c
+```objc
 @property (nonatomic, copy) NSString *name;  
 空格↑        空格↑    ↑空格
 ```
@@ -80,7 +81,7 @@ if (a < b) {
 ### <a name='braces'></a>花括号
 方法的花括号推荐另起一行。方法内部需要写在一行。
 
-```Objective-C
+```objc
   - (void)methodName:(NSString *)string {
    ↑空格                                ↑空格，推荐花括号在一行
       if () {
@@ -111,9 +112,9 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
 
 当一个函数比较长超过120个字符时 我们使用参数对齐方式
 
-```Objective-C
+```objc
 // bad 
-[self.slideNavigationController postMessageToParentViewController:@{ @"hasNewComment":@(self.hasNewComment) }
+[self.navigationController postMessageToParentViewController:@{ @"hasNewComment":@(self.hasNewComment) }
                                                        viewController:self];
    
 
@@ -123,7 +124,7 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
                                                     
 ```                                                   
 
-<a name='format-codegroup'></a>代码结构
+<a name='format-codegroup'></a>代码分组
 ----
 
 实现文件中的代码结构，提倡以下约定：
@@ -166,7 +167,7 @@ Xcode > Preferences > Text Editing > Page guide at column:中将最大行长设�
 <a name='best-path'></a>黄金路径
 ----
 
-```Objective-C
+```objc
 //注意{} 推荐使用
 if (!error) {
     return success;
@@ -253,27 +254,93 @@ if (count > 0) {
 
 <a name='bool-use'/></a>BOOL的使用
 ----
-```Objective-C
-    BOOL isSuccss = YES;//NO;
-    //推荐 直接使用BOOl
-    if (isSuccss) {
-    
-    }
-    //不推荐
-    if (isSuccss == YES) {
-    
-    }
-    
-    Person *person = nil
-    //不推荐
-    if (person){
-    
-    }
-    //推荐  一下子就知道person 是一个对象
-    if (person == nil){
-    
-    }
+Ojbective-C 中把 BOOL 定义成无符号字符型，这意味着 BOOL 类型的值远不止`YES``(1)`或`NO``(0)`，不要直接把整形转换成`BOOL`
 
+推荐：
+
+```objc
+if (someObject)
+{
+  // code...
+}
+
+if (![anotherObject boolValue]) 
+{
+  // code...
+}
+```
+
+不推荐：
+
+```objc
+if (someObject == nil)
+if ([anotherObject boolValue] == NO)
+if (isAwesome == YES)     // 永远不要直接比较BOOL变量和YES/NO.
+if (isAwesome == true)    //  永远不要直接比较BOOL变量和 True/False.
+
+```
+
+<a name='switch-case'/></a>Switch-Case
+----
+Case 语句  
+* 当一个 case 语句包含多行代码时，必须要加上大括号。
+
+```objc
+switch (condition) 
+{
+  case 1:
+    // ...
+    break;
+
+  case 2: {
+    // ...
+    // 多行 case 语句需使用大括号
+    break;
+  }
+
+  case 3:
+    // ...
+    break;
+
+   default: 
+    // ...
+    break;
+}
+```
+
+* 当在 Switch 中使用枚举类型时，`default`块是不需要的。例如：
+
+```objc
+RWTLeftMenuTopItemType menuType = RWTLeftMenuTopItemMain;
+ 
+switch (menuType) {
+  case RWTLeftMenuTopItemMain: 
+	// ...
+    break;
+  case RWTLeftMenuTopItemShows:
+	// ...
+    break;
+  case RWTLeftMenuTopItemSchedule: 
+	// ...
+    break;
+}
+```
+
+* `Case fall-through`问题
+在某些情况需要同一份代码作用在多个 case 语句中，这种情况可以使用 fall-through，即在相应的 case 块中去掉`break;`语句。例如：  
+```objc
+switch (condition) 
+{
+  case 1:
+    // ** fall-through!, 此处无 break; **
+  case 2:
+    // code executed for values 1 and 2
+    break;
+
+  default: 
+    // ...
+    break;
+}
 ```
 
 <a name='comment'></a>注释格式规范
@@ -305,7 +372,7 @@ if (count > 0) {
 
 推荐
 
-```Objective-C
+```objc
 @interface MyAppTutorial : NSObject
 
 @property (nonatomic, copy) NSString *tutorialName;
@@ -314,7 +381,7 @@ if (count > 0) {
 ```
 不推荐
 
-```Objective-C
+```objc
 @interface MyAppTutorial : NSObject {
   NSString *tutorialName;
 }
@@ -341,13 +408,13 @@ if (count > 0) {
 * [Coding Guidelines for Cocoa](http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
 * https://github.com/raywenderlich/swift-style-guide
 * https://github.com/github/swift-style-guide
-* https://github.com/github/objective-c-conventions
+* https://github.com/github/objc-conventions
 * https://github.com/jverkoey/iOS-Best-Practices
 * https://github.com/troyharris/Complete-iOS-StyleGuide
 * https://github.com/objc-zen/objc-zen-book
 * [你们是如何为 View Controller 的变量命名的呢？ - V2EX](//www.v2ex.com/t/25732)
 * [代码大全(第2版) - 亚马逊](http://www.amazon.cn/dp/B0061XKRXA)
-* [Wonderful Objective-C Style Guide](https://github.com/markeissler/wonderful-objective-c-style-guide)
+* [Wonderful objc Style Guide](https://github.com/markeissler/wonderful-objc-style-guide)
 
 <a name='footnote'></a>
 [^1]: [再谈ARC - 苹果核](http://pingguohe.net/2012/06/22/talk_arc_again/)
